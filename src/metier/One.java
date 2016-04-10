@@ -33,7 +33,7 @@ public class One {
             while(NBS>0){
 
                 A++;
-                if (A >= 19)
+                if (A >= listeProf.size())
                     A = 0;
 
 //                System.out.println(ep.getSal()+" "+getNbEnseignant(ep.getCap())+" "+ep.getDateEp()+" "+
