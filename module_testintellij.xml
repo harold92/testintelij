@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_testintellij" default="compile.module.testintellij">
+  <dirname property="module.testintellij.basedir" file="${ant.file.module_testintellij}"/>
+  
+  <property name="module.jdk.home.testintellij" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.testintellij" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.testintellij" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.testintellij" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="testintellij.output.dir" value="${module.testintellij.basedir}/out/production/testintellij"/>
+  <property name="testintellij.testoutput.dir" value="${module.testintellij.basedir}/out/test/testintellij"/>
+  
+  <path id="testintellij.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="testintellij.module.production.classpath">
+    <path refid="${module.jdk.classpath.testintellij}"/>
+    <path refid="library.mysql-connector-java-5.1.30-bin.classpath"/>
+    <path refid="library.poi-3.14-20160307.classpath"/>
+    <path refid="library.demo.classpath"/>
+  </path>
+  
+  <path id="testintellij.runtime.production.module.classpath">
+    <pathelement location="${testintellij.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.30-bin.classpath"/>
+    <path refid="library.poi-3.14-20160307.classpath"/>
+    <path refid="library.demo.classpath"/>
+  </path>
+  
+  <path id="testintellij.module.classpath">
+    <path refid="${module.jdk.classpath.testintellij}"/>
+    <pathelement location="${testintellij.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.30-bin.classpath"/>
+    <path refid="library.poi-3.14-20160307.classpath"/>
+    <path refid="library.demo.classpath"/>
+  </path>
+  
+  <path id="testintellij.runtime.module.classpath">
+    <pathelement location="${testintellij.testoutput.dir}"/>
+    <pathelement location="${testintellij.output.dir}"/>
+    <path refid="library.mysql-connector-java-5.1.30-bin.classpath"/>
+    <path refid="library.poi-3.14-20160307.classpath"/>
+    <path refid="library.demo.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.testintellij">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.testintellij">
+    <patternset refid="excluded.from.module.testintellij"/>
+  </patternset>
+  
+  <path id="testintellij.module.sourcepath">
+    <dirset dir="${module.testintellij.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.testintellij" depends="compile.module.testintellij.production,compile.module.testintellij.tests" description="Compile module testintellij"/>
+  
+  <target name="compile.module.testintellij.production" depends="register.custom.compilers" description="Compile module testintellij; production classes">
+    <mkdir dir="${testintellij.output.dir}"/>
+    <javac2 destdir="${testintellij.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.testintellij}/javac">
+      <compilerarg line="${compiler.args.testintellij}"/>
+      <bootclasspath refid="testintellij.module.bootclasspath"/>
+      <classpath refid="testintellij.module.production.classpath"/>
+      <src refid="testintellij.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.testintellij"/>
+    </javac2>
+    
+    <copy todir="${testintellij.output.dir}">
+      <fileset dir="${module.testintellij.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.testintellij.tests" depends="register.custom.compilers,compile.module.testintellij.production" description="compile module testintellij; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.testintellij" description="cleanup module">
+    <delete dir="${testintellij.output.dir}"/>
+    <delete dir="${testintellij.testoutput.dir}"/>
+  </target>
+</project>
