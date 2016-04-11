@@ -5,20 +5,15 @@ import java.util.ArrayList;
 
 public class convocation {
     String nom;
-   private ArrayList heur = new ArrayList();
+    private ArrayList heur = new ArrayList();
     private ArrayList date = new ArrayList();
     private String departement ;
     private String nomDoyen;
     private String sall;
     private int HeurS;
+    private int NBS;
 
-    public int getHeurS() {
-        return HeurS;
-    }
 
-    public String getSall() {
-        return sall;
-    }
 
     public convocation(String nom, String date, String heur, String sal,int heurS) {
         this.nom = nom;
@@ -26,8 +21,22 @@ public class convocation {
         this.heur.add(heur);
         this.sall = sal;
         this.HeurS = heurS;
+       // this.NBS=nbhs;
+    }
+    public int getHeurS() {
+        return HeurS;
     }
 
+    public String getSall() {
+        return sall;
+    }
+    public void setNBS(int NBS) {
+        this.NBS = NBS;
+    }
+
+    public int getNBS() {
+        return NBS;
+    }
     public void setDate(String date) {
         getDate().add(date);
     }
