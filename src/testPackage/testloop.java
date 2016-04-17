@@ -11,7 +11,14 @@ public class testloop {
     public static void main(String[] args)
     {
 
-
+        int tab[] ={1,3,4,56,54,2,4,55,6,77,8,9,9,9,9};
+        for (int i=0;i<tab.length;i++){
+            if (tab[i]==9){
+                System.out.println(i+" "+tab.length);
+                System.out.println(tab[i]);
+                break;
+            }
+        }
 
 //     Salle salle = new Salle(1,"A1","site 1",12);
 //       ArrayList<Salle> salleList = new ArrayList<>();

@@ -2,12 +2,15 @@ package metier;
 
 import DAO.EpreuveDAO;
 import DAO.ProfDAO;
+import DAO.convocationDAO;
 import entité.Epreuve;
 import entité.Prof;
 import entité.convocation;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class One {
 
@@ -19,19 +22,21 @@ public class One {
     }
 
     public void partage(ArrayList<Epreuve> epreuves, ArrayList<Prof> listeProf, ArrayList<Prof> profwithattr) throws SQLException {
-
+        convocationDAO convocationDAO = new convocationDAO();
         ArrayList<convocation> listconvocation = new ArrayList<>();
         int A = 0;
+        int b=0;
+        int d=0;
 
-        boolean contain=false;
+        boolean contain = false;
 
         for (Epreuve ep : epreuves) {
 //             System.out.println(ep.getMatiereEP()+" "+ep.getSal()+" "
 //                     +ep.getCap()+" "+ep.getHeurEp()+" "+ep.getDateEp());
 
-           // for (int i = 0; i < getNbEnseignant(ep.getCap()); i++)
-            int NBS=getNbEnseignant(ep.getCap());
-            while(NBS>0){
+            // for (int i = 0; i < getNbEnseignant(ep.getCap()); i++)
+            int NBS = getNbEnseignant(ep.getCap());
+            while (NBS > 0) {
 
                 A++;
                 if (A >= listeProf.size())
@@ -57,70 +62,72 @@ public class One {
                 /*
                 * la convocation de maniere aleatoire, 70%fausse
                 * */
-                convocation convocation=null;
-                if (ep.getHeurEp().equals("8H-10H") | ep.getHeurEp().equals("10H-12H")){
-                    if ( listeProf.get(A).getStatut().equals("PTP")){
-                        listeProf.get(A).setHeur_Surveillance(1);
-                     convocation = new convocation(listeProf.get(A).getNom(), ep.getDateEp(),
-                        ep.getHeurEp(), ep.getSal(),listeProf.get(A).getHeur_Surveillance());
+                convocation convocation = null;
+                if (ep.getHeurEp().equals("8H-10H") | ep.getHeurEp().equals("10H-12H")) {
+                    if (listeProf.get(A).getStatut().equals("PTP")) {
+                       // listeProf.get(A).setHeur_Surveillance(1);
+                        convocation = new convocation(listeProf.get(A).getNom(), ep.getDateEp(),
+                                ep.getHeurEp(), ep.getSal(), listeProf.get(A).getHeur_Surveillance());
 
-                        for (convocation con:listconvocation) {
+                        for (convocation con : listconvocation) {
+                            b++;
                             if (con.getHeur().equals(convocation.getHeur()) &
-                                    con.getDate().equals(convocation.getDate()))
-                            {
-                               // System.out.println("deja pris");
+                                    con.getDate().equals(convocation.getDate())) {
+                                // System.out.println("deja pris");
                             }
-
-                            if (con.getNom().equals(convocation.getNom())){
-                                   con.setDate(convocation.getDate().toString());
-                                   con.setHeur(convocation.getHeur().toString());
-
-                                break;
-                            }
-                        }
-
-                    if (contain==false) {
-
-                        listconvocation.add(convocation);
-                        NBS--;}
-                    }
-
-
-                      }
-
-                else if (ep.getHeurEp().equals("15H-17H") | ep.getHeurEp().equals("17H-19H")){
-                    if ( listeProf.get(A).getStatut().equals("VAC")){
-                     convocation = new convocation(listeProf.get(A).getNom(), ep.getDateEp(),
-                            ep.getHeurEp(), ep.getSal(),listeProf.get(A).getHeur_Surveillance());
-                        listeProf.get(A).setHeur_Surveillance(1);
-                        if (listeProf.get(A).getHeur_Surveillance()>=8){
-                           /// System.out.println("deja pris");
-                        }
-                        else
-                        for (convocation con:listconvocation) {
-                            if (con.getHeur().equals(convocation.getHeur()) &
-                                    con.getDate().equals(convocation.getDate()))
-                            {
-
-                            }
-                            if (con.getNom().equals(convocation.getNom())){
+                            //si une convocation de meme nom existe ne recreer mais augmente juste ses heur de surveillance
+                            if (con.getNom().equals(convocation.getNom())) {
                                 con.setDate(convocation.getDate().toString());
                                 con.setHeur(convocation.getHeur().toString());
 
-                                break;
+                                // break;
                             }
                         }
 
-                        if (contain==false) {
-
+                        if (contain == false) {
+                                convocationDAO.AddEpreuve(convocation);
                             listconvocation.add(convocation);
-                            NBS--;}
+                            NBS--;
+                        }
+                    }
+
+
+                } else if (ep.getHeurEp().equals("15H-17H") | ep.getHeurEp().equals("17H-19H")) {
+                    if (listeProf.get(A).getStatut().equals("VAC") | listeProf.get(A).getStatut().equals("PTP")) {
+                        convocation = new convocation(listeProf.get(A).getNom(), ep.getDateEp(),
+                                ep.getHeurEp(), ep.getSal(), listeProf.get(A).getHeur_Surveillance());
+                        listeProf.get(A).setHeur_Surveillance(1);
+                        if (listeProf.get(A).getHeur_Surveillance() <= 8) {
+                            /// System.out.println("deja pris");
+                        } else
+                            for (convocation con : listconvocation) {
+                                d++;
+                                if (con.getHeur().equals(convocation.getHeur()) &
+                                        con.getDate().equals(convocation.getDate()) &
+                                        con.getNom().equals(convocation.getNom())) {
+                                    con.setDate(convocation.getDate().get(d).toString());
+                                    con.setHeur(convocation.getHeur().get(d).toString());
+                                }
+                                if (con.getNom().equals(convocation.getNom())) {
+                                    if (!con.getHeur().contains(convocation.getDate().get(A))&
+                                            !con.getDate().contains(convocation.getDate().get(A))){
+                                    con.setDate(convocation.getDate().toString());
+                                    con.setHeur(convocation.getHeur().toString());
+                                    }
+
+                                   // break;
+                                }
+                            }
+
+                        if (contain == false) {
+                            convocationDAO.AddEpreuve(convocation);
+                            listconvocation.add(convocation);
+                            NBS--;
+                        }
 
 
                     }
-                    else{
 
-                    }
                 }
 //
 //                listeProf.get(A).setHeur_Surveillance(1);
@@ -163,16 +170,44 @@ public class One {
 //                //A=c;
         }
 
-        for (int c = 0; c < listconvocation.size(); c++) {
+        HashSet<convocation> donpp = new HashSet();
+        ArrayList<convocation> newiste= new ArrayList<>();
+        for (int c = 0; c < listconvocation.size()-1; c++) {
+
+            if (listconvocation.get(c).getNom().equals(listconvocation.get(c+1).getNom())){
+              //  listconvocation.get(c).getHeur().add(listconvocation.get(c+1).getHeur().get(c+1));
+            convocation con = new convocation(listconvocation.get(c).getNom(),listconvocation.get(c).getDate().get(c).toString(),
+                    listconvocation.get(c).getHeur().get(c).toString(),listconvocation.get(c).getSall(),listconvocation.get(c).getHeurS());
+           newiste.add(listconvocation.get(c));}
 //            System.out.println(listconvocation.get(c).getNom() + " " + listconvocation.get(c).getDate().toString()
 //                    + " " + listconvocation.get(c).getHeur().toString() + " " +
 //                    listconvocation.get(c).getSall()+" "+c+" "+listconvocation.get(A).getHeurS());
-            System.out.println(listconvocation.get(c).getNom());
-            for (int i=0;i<listconvocation.get(c).getHeur().size();i++){
+         System.out.println(listconvocation.get(c).getNom());
+            for (int i = 0; i < listconvocation.get(c).getHeur().size(); i++) {
                 System.out.println(listconvocation.get(c).getDate().toString()
-                    + " " + listconvocation.get(c).getHeur().toString() + " " +
-                    listconvocation.get(c).getSall()+" "+c+" "+listconvocation.get(A).getHeurS());
-            }
+                        + " " + listconvocation.get(c).getHeur().toString() + " " +
+                        listconvocation.get(c).getSall() + " " + c + " " + listconvocation.get(A).getHeurS());
+//
+}
+        }
+
+            ArrayList<convocation> ll = new ArrayList<>();
+            for (int i=0;i<listconvocation.size()-1;i++){
+                if (listconvocation.get(i).getNom().equals(listconvocation.get(i+1).getNom())){
+                    System.out.println(listconvocation.get(i).getNom());
+                    for (int r=0;r<listconvocation.get(i+1).getDate().size();r++){
+
+                        listconvocation.get(i).setDate(listconvocation.get(i+1).getDate().get(r).toString());
+                        listconvocation.get(i).setHeur(listconvocation.get(i+1).getHeur().get(r).toString());
+                        ll.add(listconvocation.get(i));
+                    }
+                }
+              //  System.out.println(newiste.get(i).getNom());
+                for (int q=0;q<ll.size();q++){
+                    System.out.println(ll.get(q).getDate().get(q).toString()+" "+
+                    ll.get(q).getHeur().get(q).toString());
+                }
+                   }
 
 //            if (listconvocation.get(c).getNom().equals(listconvocation.get(c+1).getNom())) {
 //                System.out.println(listconvocation.get(c).getNom());
@@ -187,13 +222,13 @@ public class One {
 //
 //            }
         }
-    }
 
 
-    public ArrayList<convocation> alea(int i,ArrayList<convocation> con,Epreuve ep,
-                                       ArrayList<Prof> listprof){
+
+    public ArrayList<convocation> alea(int i, ArrayList<convocation> con, Epreuve ep,
+                                       ArrayList<Prof> listprof) {
         convocation convocation = new convocation(listprof.get(i).getNom(), ep.getDateEp(),
-                ep.getHeurEp(), ep.getSal(),listprof.get(i).getHeur_Surveillance());
+                ep.getHeurEp(), ep.getSal(), listprof.get(i).getHeur_Surveillance());
         con.add(convocation);
         return con;
     }

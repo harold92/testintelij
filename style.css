@@ -1,0 +1,57 @@
+body{
+	margin-left: 200px;
+	margin-right: 200px;
+
+}
+table
+{
+	height: 200px;
+	width: 900px;
+    border-collapse: collapse;
+}
+th,td,thead,tbody
+{
+border: 2px solid black;
+margin: 900px;
+}
+.destine{
+	text-align: center;
+	margin-left: 500px;
+}
+.prof{
+	text-align: center;
+	margin-left: 400px;
+}
+.first{
+	float: left;
+	color:black;
+	margin-left: 50px;
+	text-align: center;
+}
+.ud{
+	text-shadow: #CCC 1px 0 10px;
+
+}
+.seconde{
+    background-color:black;
+	float: right;
+	color:black;
+	margin-left: 100px;
+	margin-right: 50px;
+}
+.troisieme{
+	text-align: center;
+	color:black;
+	/*float:right;*/
+	text-align: left;
+}
+.title{
+
+}
+.responsable{
+
+
+}
+.Date-actuel{
+	float: right;
+}

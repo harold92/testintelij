@@ -11,5 +11,11 @@
     <orderEntry type="library" name="poi-3.14-20160307" level="project" />
     <orderEntry type="library" name="demo" level="project" />
     <orderEntry type="library" name="javamail-1.4" level="project" />
+    <orderEntry type="library" name="flyingsaucer-core-renderer-r8.99.2" level="project" />
+    <orderEntry type="library" name="com.lowagie.text-2.1.7" level="project" />
+    <orderEntry type="library" name="itextpdf-5.4.0" level="project" />
+    <orderEntry type="library" name="itextpdf-5.4" level="project" />
+    <orderEntry type="library" name="com" level="project" />
+    <orderEntry type="library" name="xmlworker-5.4.1" level="project" />
   </component>
 </module>
