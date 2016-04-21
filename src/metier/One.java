@@ -115,7 +115,6 @@ public class One {
                                     con.setHeur(convocation.getHeur().toString());
                                     }
 
-                                   // break;
                                 }
                             }
 

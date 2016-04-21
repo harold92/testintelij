@@ -7,7 +7,7 @@
 <GridPane alignment="CENTER"  disable="false" gridLinesVisible="true" hgap="10.0" prefHeight="509.00010681152344" prefWidth="600.0" vgap="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="IHM.CTRL.Controller">
   <Pane   cacheHint="QUALITY" prefHeight="200.0" prefWidth="600.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
     <children>
-      <MenuBar blendMode="EXCLUSION" layoutX="0.0" layoutY="0.0" maxHeight="-1.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mouseTransparent="false" pickOnBounds="false" prefWidth="600.0" useSystemMenuBar="false">
+      <MenuBar  blendMode="EXCLUSION" layoutX="0.0" layoutY="0.0" maxHeight="-1.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mouseTransparent="false" pickOnBounds="false" prefWidth="600.0" useSystemMenuBar="false">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -35,7 +35,7 @@
           </FXCollections>
         </items>
       </ChoiceBox>
-      <FileChooser fx:id ="tower1FileChooser" />
+
       <Hyperlink layoutX="121.0" layoutY="266.0" text="Hyperlink" />
       <ScrollPane layoutX="386.0" layoutY="55.0" prefHeight="200.0" prefWidth="200.0">
         <content>
