@@ -1,26 +1,15 @@
 body{
 	margin-left: 200px;
 	margin-right: 200px;
+}
 
-}
-table
-{
-	height: 200px;
-	width: 900px;
-    border-collapse: collapse;
-}
-th,td,thead,tbody
-{
-border: 2px solid black;
-margin: 900px;
-}
 .destine{
 	text-align: center;
 	margin-left: 500px;
 }
 .prof{
 	text-align: center;
-	margin-left: 400px;
+	margin-left: 420px;
 }
 .first{
 	float: left;
@@ -33,8 +22,7 @@ margin: 900px;
 
 }
 .seconde{
-    background-color:black;
-	float: right;
+	float: left;
 	color:black;
 	margin-left: 100px;
 	margin-right: 50px;
@@ -42,7 +30,6 @@ margin: 900px;
 .troisieme{
 	text-align: center;
 	color:black;
-	/*float:right;*/
 	text-align: left;
 }
 .title{

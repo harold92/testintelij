@@ -23,14 +23,16 @@ class Teste {
         convocation con2 = new convocation("robleh","10-2-2015","8H-10H","A2",1);
         convocation con3 = new convocation("robleh","12-8-2012","15H-17H","F1",1);
         convocation con4 = new convocation("robleh","12-8-2012","17H-19H","F3",1);
-        list.add(con);
         list.add(con2);
+        list.add(con);
         list.add(con3);
         list.add(con4);
+ArrayList<String> prof = new ArrayList<>();
+        prof.add("robleh");
+        prof.add("ABDI");
+        //String[] tab ={,"ABDI"};
 
-        String[] tab ={"robleh","ABDI"};
-
-        for (String aTab : tab){
+        for (Object aTab : prof.toArray()){
 
             listD= new ArrayList();
             listS=new ArrayList();
@@ -45,11 +47,13 @@ class Teste {
                         listS.add(cc.getSall());
                     }
                     convocation cv = new convocation(cc.getNom(), listH, listD, listS);
-                            list2.add(cv);
+                    list2.add(cv);
+
+
                 }
             }}
 
-        for ( convocation cc: list2) {
+        for ( convocation cc: range(list2)) {
             System.out.println(cc.getNom());
             for (int i=0;i<cc.getHeur().size();i++){
                 System.out.println(cc.getDate().get(i)+" "+cc.getHeur().get(i)+" "+" "+cc.getSal().get(i));
@@ -57,5 +61,17 @@ class Teste {
         }
 
 
+    }
+
+    static ArrayList<convocation> range(ArrayList<convocation> li){
+        for (int i=0;i<li.size()-1;i++){
+            if (li.get(i).getNom().equals(li.get(i+1).getNom())){
+                li.remove(li.get(i+1));
+                range(li);
+            }
+
+        }
+
+        return li;
     }
 }
